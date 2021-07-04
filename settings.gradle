@@ -1,0 +1,2 @@
+rootProject.name = "TouchLock Helper"
+include ':app'

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="@dimen/inner_frame_layout_padding"
+    android:paddingBottom="@dimen/inner_frame_layout_padding"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    tools:deviceIds="wear">
+
+    <RelativeLayout
+        android:id="@+id/launch_touchlock_pref"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/SettingPrefLayoutStyle">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/launch_touchlock_icon"
+            android:layout_width="@dimen/ws_switch_size"
+            android:layout_height="@dimen/ws_switch_size"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="false"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/dark_grey"
+            android:clickable="false"
+            android:padding="8dp"
+            android:src="@drawable/ic_touch_lock" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/launch_touchlock_pref_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/launch_touchlock_icon"
+            android:layout_centerVertical="true"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:text="@string/title_start_touchlock"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="14sp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="12sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/touchlock_pref"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/SettingPrefLayoutStyle">
+
+        <Switch
+            android:id="@+id/touchlock_pref_switch"
+            style="@style/Widget.Wear.RoundSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@id/touchlock_pref_switch"
+            android:layout_marginEnd="8dp"
+            android:clickable="false"
+            android:src="@drawable/ic_touch_lock"
+            android:trackTint="@color/dark_grey"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/touchlock_pref_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/touchlock_pref_switch"
+            android:layout_centerVertical="true"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:text="@string/title_autolaunch_touchlock"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textSize="14sp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMinTextSize="12sp" />
+    </RelativeLayout>
+
+</LinearLayout>
