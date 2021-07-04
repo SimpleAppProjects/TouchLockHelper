@@ -11,9 +11,8 @@ android {
         applicationId "com.thewizrd.touchlockhelper"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
-
+        versionCode 3010000
+        versionName "1.0.0"
     }
 
     buildTypes {
