@@ -3,10 +3,13 @@ package com.thewizrd.touchlockhelper
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.thewizrd.touchlockhelper.databinding.ActivityMainBinding
 
 class MainActivity : Activity() {
     companion object {
+        private const val TAG = "TouchLock"
+
         private const val ACTION_ENABLE_WET_MODE =
             "com.google.android.wearable.action.ENABLE_WET_MODE"
     }
@@ -16,6 +19,8 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d(TAG, "onCreate")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -32,15 +37,37 @@ class MainActivity : Activity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
+
+        Log.d(TAG, "onStart")
+
         if (Settings.isAutoLaunchTouchLockEnabled(this) && !mAutoLaunched) {
+            Log.d(TAG, "auto-launching wet mode...")
             startWetMode()
             mAutoLaunched = true
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop")
+    }
+
     private fun startWetMode() {
+        Log.d(TAG, "Starting wet mode...")
         sendBroadcast(Intent(ACTION_ENABLE_WET_MODE))
+        // Go back home (launcher) once wet mode has started
+        moveTaskToBack(true)
     }
 }
