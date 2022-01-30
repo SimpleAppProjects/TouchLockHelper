@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 31
+    buildToolsVersion '31.0.0'
 
     defaultConfig {
         applicationId "com.thewizrd.touchlockhelper"
         minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 3010000
+        targetSdkVersion 31
+        versionCode 3110000
         versionName "1.0.0"
     }
 
