@@ -1,6 +1,8 @@
 package com.thewizrd.touchlockhelper
 
 import android.app.Activity
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +14,15 @@ class MainActivity : Activity() {
 
         private const val ACTION_ENABLE_WET_MODE =
             "com.google.android.wearable.action.ENABLE_WET_MODE"
+        private const val EXTRA_RELAUNCH_COMPONENT_NAME = "relaunch_component_name"
+
+        private const val EXTRA_NO_AUTO_LAUNCH = "TouchLockHelper.extra.NO_AUTOLAUNCH"
+
+        fun buildNoAutoStartIntent(context: Context): Intent {
+            return Intent(context, MainActivity::class.java).apply {
+                putExtra(EXTRA_NO_AUTO_LAUNCH, true)
+            }
+        }
     }
 
     private lateinit var binding: ActivityMainBinding
@@ -21,6 +32,8 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
 
         Log.d(TAG, "onCreate")
+
+        handleIntent(intent)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -34,6 +47,20 @@ class MainActivity : Activity() {
             val state = !Settings.isAutoLaunchTouchLockEnabled(this)
             Settings.setAutoLaunchTouchLockEnabled(this, state)
             binding.touchlockPrefSwitch.isChecked = state
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        if (intent == null) return
+
+        if (intent.getBooleanExtra(EXTRA_NO_AUTO_LAUNCH, false)) {
+            mAutoLaunched = true
         }
     }
 
@@ -66,7 +93,12 @@ class MainActivity : Activity() {
 
     private fun startWetMode() {
         Log.d(TAG, "Starting wet mode...")
-        sendBroadcast(Intent(ACTION_ENABLE_WET_MODE))
+        sendBroadcast(Intent(ACTION_ENABLE_WET_MODE).apply {
+            putExtra(
+                EXTRA_RELAUNCH_COMPONENT_NAME,
+                ComponentName(this@MainActivity, PostLockActivity::class.java).flattenToString()
+            )
+        })
         // Go back home (launcher) once wet mode has started
         moveTaskToBack(true)
     }
