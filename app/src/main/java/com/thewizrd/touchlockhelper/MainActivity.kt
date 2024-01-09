@@ -4,13 +4,19 @@ import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.PermissionChecker
 import com.thewizrd.touchlockhelper.databinding.ActivityMainBinding
 
 class MainActivity : Activity() {
     companion object {
         private const val TAG = "TouchLock"
+        private const val REQCODE_WATCHTOUCH = 0
+
+        private const val PERMISSION_WATCH_TOUCH =
+            "com.google.android.clockwork.settings.WATCH_TOUCH"
 
         private const val ACTION_ENABLE_WET_MODE =
             "com.google.android.wearable.action.ENABLE_WET_MODE"
@@ -39,7 +45,15 @@ class MainActivity : Activity() {
         setContentView(binding.root)
 
         binding.launchTouchlockPref.setOnClickListener {
-            startWetMode()
+            if (PermissionChecker.checkSelfPermission(
+                    this,
+                    PERMISSION_WATCH_TOUCH
+                ) != PermissionChecker.PERMISSION_GRANTED
+            ) {
+                requestPermissions(arrayOf(PERMISSION_WATCH_TOUCH), REQCODE_WATCHTOUCH)
+            } else {
+                startWetMode()
+            }
         }
 
         binding.touchlockPrefSwitch.isChecked = Settings.isAutoLaunchTouchLockEnabled(this)
@@ -89,6 +103,22 @@ class MainActivity : Activity() {
     override fun onStop() {
         super.onStop()
         Log.d(TAG, "onStop")
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            REQCODE_WATCHTOUCH -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startWetMode()
+                }
+            }
+        }
     }
 
     private fun startWetMode() {
