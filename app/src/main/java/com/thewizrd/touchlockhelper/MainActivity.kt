@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.core.content.PermissionChecker
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.thewizrd.touchlockhelper.databinding.ActivityMainBinding
 
 class MainActivity : Activity() {
@@ -35,6 +36,7 @@ class MainActivity : Activity() {
     private var mAutoLaunched = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
 
         Log.d(TAG, "onCreate")
